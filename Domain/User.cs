@@ -19,7 +19,7 @@ namespace Domain
 
 	public enum Role : short
 	{
-		Administrator,
-		BasicUser
+		Administrator = 1,
+		BasicUser = 2
 	}
 }

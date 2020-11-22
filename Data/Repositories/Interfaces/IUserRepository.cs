@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Domain.Repositories.Interfaces
+namespace Data.Repositories.Interfaces
 {
 	public interface IUserRepository
 	{
+		Task<IEnumerable<User>> GetAll();
+
 		Task<User> Get(int id);
 
 		Task Insert(User user);

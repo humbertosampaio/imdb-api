@@ -1,9 +1,9 @@
-﻿using Domain;
-using Domain.Repositories.Filters;
+﻿using Data.Repositories.Filters;
+using Domain;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Domain.Repositories.Interfaces
+namespace Data.Repositories.Interfaces
 {
 	public interface IMovieRepository
 	{

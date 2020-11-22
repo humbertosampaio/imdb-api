@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Domain.Repositories.Filters
+namespace Data.Repositories.Filters
 {
 	public readonly struct MovieFilterDto
 	{

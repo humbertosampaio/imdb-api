@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Data
 {
-	public class DataContext : DbContext
+	public class DataContext : DbContext, IDataContext
 	{
 		public DataContext(DbContextOptions options) : base(options)
 		{
@@ -46,7 +46,7 @@ namespace Data
 			//	modelBuilder.Entity<Movie>().HasData(movies);
 		}
 
-	public DbSet<Actor> Actors { get; set; }
+		public DbSet<Actor> Actors { get; set; }
 		public DbSet<Director> Directors { get; set; }
 		public DbSet<Genre> Genres { get; set; }
 		public DbSet<Movie> Movies { get; set; }
