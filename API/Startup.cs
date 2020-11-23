@@ -31,6 +31,10 @@ namespace API
 			services.AddOptions();
 
 			services
+				.AddControllers()
+				.AddNewtonsoftJson();
+
+			services
 				.AddMvc()
 				.AddControllersAsServices();
 		}

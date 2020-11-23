@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Data
 {
@@ -11,5 +12,7 @@ namespace Data
 		DbSet<Movie> Movies { get; set; }
 		DbSet<Rating> Ratings { get; set; }
 		DbSet<User> Users { get; set; }
+
+		Task SaveChangesAsync();
 	}
 }

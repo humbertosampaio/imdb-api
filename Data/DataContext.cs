@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Data
 {
@@ -44,6 +45,11 @@ namespace Data
 			//	modelBuilder.Entity<Director>().HasData(directors);
 			//	modelBuilder.Entity<Genre>().HasData(genres);
 			//	modelBuilder.Entity<Movie>().HasData(movies);
+		}
+
+		public Task SaveChangesAsync()
+		{
+			return Task.Run(() => base.SaveChangesAsync());
 		}
 
 		public DbSet<Actor> Actors { get; set; }

@@ -14,7 +14,7 @@ namespace Domain
 		public int Id { get; private set; }
 		public string Name { get; private set; }
 		public Role Role { get; private set; }
-		public ICollection<Rating> Ratings { get; set; }
+		public IEnumerable<Rating> Ratings { get; private set; }
 	}
 
 	public enum Role : short

@@ -2,7 +2,7 @@
 {
 	public class Rating
 	{
-		private Rating(int id, short value)
+		public Rating(int id, short value)
 		{
 			Id = id;
 			Value = value;

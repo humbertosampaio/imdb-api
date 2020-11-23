@@ -12,6 +12,6 @@ namespace Domain
 
 		public int Id { get; private set; }
 		public string Name { get; private set; }
-		public ICollection<Movie> Movies { get; set; }
+		public IEnumerable<Movie> Movies { get; set; }
 	}
 }

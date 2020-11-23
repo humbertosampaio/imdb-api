@@ -9,7 +9,7 @@ namespace Data.Repositories.Interfaces
 	{
 		Task<IEnumerable<Movie>> Get(MovieFilterDto filter, int pageIndex = 0, int usersPerPage = 0);
 
-		Task Insert(Movie movie);
+		Task AddAsync(Movie movie);
 
 		Task AddRating(User user, int rating);
 	}

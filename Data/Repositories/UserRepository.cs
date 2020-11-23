@@ -19,6 +19,7 @@ namespace Data.Repositories
 		public async Task<IEnumerable<User>> GetAll()
 		{
 			return await _context.Users
+				.AsNoTracking()
 				.Include(user => user.Ratings)
 				.ThenInclude(rating => rating.Movie)
 				.ToListAsync();

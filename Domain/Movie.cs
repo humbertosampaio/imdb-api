@@ -8,16 +8,18 @@ namespace Domain
 			int id,
 			string name,
 			Genre genre,
-			ICollection<Actor> actors,
-			ICollection<Director> directors)
+			IEnumerable<Actor> actors,
+			IEnumerable<Director> directors,
+			IEnumerable<Rating> ratings)
 			: this(id, name)
 		{
 			Genre = genre;
 			Actors = actors;
 			Directors = directors;
+			Ratings = ratings;
 		}
 
-		private Movie(int id, string name)
+		public Movie(int id, string name)
 		{
 			Id = id;
 			Name = name;
@@ -26,8 +28,8 @@ namespace Domain
 		public int Id { get; private set; }
 		public string Name { get; private set; }
 		public Genre Genre { get; private set; }
-		public ICollection<Actor> Actors { get; private set; }
-		public ICollection<Director> Directors { get; private set; }
-		public ICollection<Rating> Ratings { get; private set; }
+		public IEnumerable<Actor> Actors { get; private set; }
+		public IEnumerable<Director> Directors { get; private set; }
+		public IEnumerable<Rating> Ratings { get; private set; }
 	}
 }
