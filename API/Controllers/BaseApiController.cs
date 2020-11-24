@@ -4,9 +4,9 @@ namespace API.Controllers
 {
 	public abstract class BaseApiController : ControllerBase
 	{
-		public virtual ObjectResult InternalServerError(string detail = "Unexpected error.")
+		public virtual ObjectResult InternalServerError(string errorMessage = "Unexpected error.")
 		{
-			return Problem(detail, statusCode: 500);
+			return StatusCode(500, errorMessage);
 		}
 	}
 }

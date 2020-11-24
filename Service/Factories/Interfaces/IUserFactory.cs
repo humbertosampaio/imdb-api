@@ -5,6 +5,6 @@ namespace Service.Factories.Interfaces
 {
 	public interface IUserFactory
 	{
-		User Create(UserInputDto dto);
+		User Create(UserInputDto dto, int id = 0);
 	}
 }

@@ -7,7 +7,7 @@ namespace Service.Factories
 {
 	public class UserFactory : IUserFactory
 	{
-		public User Create(UserInputDto dto)
+		public User Create(UserInputDto dto, int id = 0)
 		{
 			RoleEnum role;
 			if (dto.Role.Equals("Administrator", StringComparison.InvariantCultureIgnoreCase))
@@ -17,7 +17,7 @@ namespace Service.Factories
 			else
 				throw new ApplicationException($"The {dto.Role} role is invalid.");
 
-			return new User(0, dto.Login, role, true);
+			return new User(id, dto.Login, role, true);
 		}
 	}
 }

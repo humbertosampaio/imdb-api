@@ -25,6 +25,24 @@ namespace API.Controllers
 			return Ok(users);
 		}
 
+		[HttpPut("{id}")]
+		public async Task<IActionResult> Put(int id, [FromBody] UserInputDto newUserDto)
+		{
+			try
+			{
+				if (!newUserDto.IsValid)
+					return BadRequest();
+
+				await _userService.UpdateAsync(id, newUserDto);
+
+				return Ok();
+			}
+			catch (Exception)
+			{
+				return InternalServerError();
+			}
+		}
+
 		[HttpPost("Register")]
 		public async Task<IActionResult> Register([FromBody] UserInputDto userDto)
 		{

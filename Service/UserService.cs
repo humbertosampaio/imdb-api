@@ -1,9 +1,7 @@
 ﻿using Data.Repositories.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Service.DTOs.User;
 using Service.Factories.Interfaces;
 using Service.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,6 +36,12 @@ namespace Service
 
 			var user = _userFactory.Create(userInputDto);
 			await _userRepository.AddAsync(user);
+		}
+
+		public async Task UpdateAsync(int id, UserInputDto newUserInputDto)
+		{
+			var newUser = _userFactory.Create(newUserInputDto, id);
+			await _userRepository.UpdateAsync(newUser);
 		}
 	}
 }

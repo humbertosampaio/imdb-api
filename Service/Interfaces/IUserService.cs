@@ -9,5 +9,7 @@ namespace Service.Interfaces
 		Task<IEnumerable<UserOutputDto>> GetAll();
 
 		Task AddAsync(UserInputDto userInputDto);
+
+		Task UpdateAsync(int id, UserInputDto newUserInputDto);
 	}
 }

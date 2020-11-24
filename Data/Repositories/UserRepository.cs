@@ -27,6 +27,11 @@ namespace Data.Repositories
 				.ToListAsync();
 		}
 
+		public async Task<User> GetAsync(int id)
+		{
+			return await _dataContext.Users.FindAsync(id);
+		}
+
 		public async Task<User> GetAsync(string login)
 		{
 			return await _dataContext.Users
@@ -35,7 +40,13 @@ namespace Data.Repositories
 
 		public async Task AddAsync(User user)
 		{
-			await _dataContext.Users.AddAsync(user);
+			_dataContext.Users.Add(user);
+			await _dataContext.SaveChangesAsync();
+		}
+
+		public async Task UpdateAsync(User user)
+		{
+			_dataContext.Users.Update(user);
 			await _dataContext.SaveChangesAsync();
 		}
 
