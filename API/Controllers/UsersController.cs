@@ -19,10 +19,33 @@ namespace API.Controllers
 			_userService = userService;
 		}
 
+		[HttpGet("{id}")]
 		public async Task<IActionResult> Get()
 		{
 			var users = await _userService.GetAll();
 			return Ok(users);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Post([FromBody] UserInputDto userDto)
+		{
+			try
+			{
+				if (!userDto.IsValid)
+					return BadRequest();
+
+				await _userService.AddAsync(userDto);
+
+				return Ok();
+			}
+			catch (ApplicationException e)
+			{
+				return InternalServerError(e.Message);
+			}
+			catch (Exception)
+			{
+				return InternalServerError();
+			}
 		}
 
 		[HttpPut("{id}")]
@@ -64,28 +87,6 @@ namespace API.Controllers
 			{
 				await _userService.DeactivateAsync(id);
 				return Ok();
-			}
-			catch (Exception)
-			{
-				return InternalServerError();
-			}
-		}
-
-		[HttpPost("Register")]
-		public async Task<IActionResult> Register([FromBody] UserInputDto userDto)
-		{
-			try
-			{
-				if (!userDto.IsValid)
-					return BadRequest();
-
-				await _userService.AddAsync(userDto);
-
-				return Ok();
-			}
-			catch (ApplicationException e)
-			{
-				return InternalServerError(e.Message);
 			}
 			catch (Exception)
 			{
