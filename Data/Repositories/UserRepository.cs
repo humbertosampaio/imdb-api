@@ -30,18 +30,24 @@ namespace Data.Repositories
 				.ToListAsync();
 		}
 
-		public async Task<User> GetAsync(int id)
+		public async Task<User> GetAsync(int id, bool asNoTracking = false)
 		{
-			return await _dataContext.Users
-				.AsNoTracking()
-				.SingleAsync(user => user.Id.Equals(id));
+			IQueryable<User> users = _dataContext.Users;
+
+			if (asNoTracking)
+				users = users.AsNoTracking();
+
+			return await users.SingleAsync(user => user.Id.Equals(id));
 		}
 
-		public async Task<User> GetAsync(string login)
+		public async Task<User> GetAsync(string login, bool asNoTracking = false)
 		{
-			return await _dataContext.Users
-				.AsNoTracking()
-				.SingleAsync(user => user.Login.Equals(login));
+			IQueryable<User> users = _dataContext.Users;
+
+			if (asNoTracking)
+				users = users.AsNoTracking();
+
+			return await users.SingleAsync(user => user.Login.Equals(login));
 		}
 
 		public async Task AddAsync(User user)

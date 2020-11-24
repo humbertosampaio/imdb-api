@@ -7,10 +7,10 @@ namespace Data.Repositories.Interfaces
 {
 	public interface IMovieRepository
 	{
-		Task<IEnumerable<Movie>> Get(MovieFilterDto filter, int pageIndex = 0, int usersPerPage = 0);
+		Task<Movie> GetAsync(int id, bool asNoTracking);
+
+		Task<IEnumerable<Movie>> GetAsync(MovieFilterDto filter, int pageIndex = 0, int usersPerPage = 0);
 
 		Task AddAsync(Movie movie);
-
-		Task AddRating(User user, int rating);
 	}
 }

@@ -25,6 +25,12 @@ namespace Service
 			_userFactory = userFactory;
 		}
 
+		public async Task<UserOutputDto> GetAsync(string login)
+		{
+			var user = await _userRepository.GetAsync(login, asNoTracking: true);
+			return new UserOutputDto(user);
+		}
+
 		public async Task<IEnumerable<UserOutputDto>> GetActiveBasicUsersAsync(PaginationDto paginationDto)
 		{
 			var users = await _userRepository.GetActiveBasicUsersAsync(paginationDto);
@@ -47,14 +53,14 @@ namespace Service
 
 		public async Task DeactivateAsync(int id)
 		{
-			var existingUser = await _userRepository.GetAsync(id);
+			var existingUser = await _userRepository.GetAsync(id, asNoTracking: true);
 			existingUser.Deactivate();
 			await _userRepository.UpdateAsync(existingUser);
 		}
 
 		public async Task ActivateAsync(int id)
 		{
-			var existingUser = await _userRepository.GetAsync(id);
+			var existingUser = await _userRepository.GetAsync(id, asNoTracking: true);
 			existingUser.Activate();
 			await _userRepository.UpdateAsync(existingUser);
 		}

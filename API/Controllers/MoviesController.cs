@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Service.DTOs.Movie;
 using Service.Interfaces;
 using System;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
+	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class MoviesController : BaseApiController
@@ -15,12 +17,6 @@ namespace API.Controllers
 		public MoviesController(IMovieService movieService)
 		{
 			_movieService = movieService;
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> Get()
-		{
-			return Ok();
 		}
 
 		[HttpPost]
@@ -37,6 +33,26 @@ namespace API.Controllers
 			catch (ApplicationException e)
 			{
 				return InternalServerError(e.Message);
+			}
+			catch (Exception)
+			{
+				return InternalServerError();
+			}
+		}
+
+		[Authorize(Roles = "BasicUser")]
+		[HttpPost("{id}/Rate")]
+		public async Task<IActionResult> Rate(int id, [FromQuery] short rating)
+		{
+			try
+			{
+				if (rating < 0 || rating > 4)
+					return BadRequest("Rating should be between 0 and 4.");
+
+				var userLogin = User.Identity.Name;
+				await _movieService.RateAsync(id, userLogin, rating);
+
+				return Ok();
 			}
 			catch (Exception)
 			{

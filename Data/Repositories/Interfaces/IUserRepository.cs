@@ -7,9 +7,9 @@ namespace Data.Repositories.Interfaces
 {
 	public interface IUserRepository
 	{
-		Task<User> GetAsync(int id);
+		Task<User> GetAsync(int id, bool asNoTracking = false);
 
-		Task<User> GetAsync(string login);
+		Task<User> GetAsync(string login, bool asNoTracking = false);
 
 		Task<IEnumerable<User>> GetActiveBasicUsersAsync(PaginationDto paginationDto);
 

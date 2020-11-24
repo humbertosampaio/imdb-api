@@ -38,7 +38,7 @@ namespace Service
 
 		public async Task<string> GenerateJwt(string userLogin)
 		{
-			var user = await _userRepository.GetAsync(userLogin);
+			var user = await _userRepository.GetAsync(userLogin, asNoTracking: true);
 			var role = Role.Parse(user.Role);
 
 			var tokenHandler = new JwtSecurityTokenHandler();

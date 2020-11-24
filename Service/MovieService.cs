@@ -13,12 +13,24 @@ namespace Service
 	public class MovieService : IMovieService
 	{
 		private readonly IMovieRepository _movieRepository;
-		private readonly IMovieFactory _movieFactory;
+		private readonly IRatingRepository _ratingRepository;
+		private readonly IUserRepository _userRepository;
 
-		public MovieService(IMovieRepository movieRepository, IMovieFactory movieFactory)
+		private readonly IMovieFactory _movieFactory;
+		private readonly IRatingFactory _ratingFactory;
+
+		public MovieService(
+			IMovieRepository movieRepository,
+			IRatingRepository ratingRepository,
+			IUserRepository userRepository,
+			IMovieFactory movieFactory,
+			IRatingFactory ratingFactory)
 		{
 			_movieRepository = movieRepository;
+			_ratingRepository = ratingRepository;
+			_userRepository = userRepository;
 			_movieFactory = movieFactory;
+			_ratingFactory = ratingFactory;
 		}
 
 		public Task<IEnumerable<Movie>> Get(MovieFilterDto filter, int pageIndex = 0, int usersPerPage = 0)
@@ -32,9 +44,10 @@ namespace Service
 			await _movieRepository.AddAsync(movie);
 		}
 
-		public Task AddRatingAsync(User user, int rating)
+		public async Task RateAsync(int movieId, string userLogin, short rating)
 		{
-			throw new NotImplementedException();
+			var newRating = await _ratingFactory.Create(movieId, userLogin, rating);
+			await _ratingRepository.AddAsync(newRating);
 		}
 	}
 }

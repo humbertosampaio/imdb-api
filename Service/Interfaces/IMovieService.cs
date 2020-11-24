@@ -9,7 +9,7 @@ namespace Service.Interfaces
 	public interface IMovieService
 	{
 		Task AddAsync(MovieInputDto movieInputDto);
-		Task AddRatingAsync(User user, int rating);
+		Task RateAsync(int movieId, string userLogin, short rating);
 		Task<IEnumerable<Movie>> Get(MovieFilterDto filter, int pageIndex = 0, int usersPerPage = 0);
 	}
 }
