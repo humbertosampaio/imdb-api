@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.DTOs.Movie;
 using Service.Interfaces;
@@ -10,7 +11,7 @@ namespace API.Controllers
 	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
-	public class MoviesController : BaseApiController
+	public class MoviesController : ControllerBase
 	{
 		private readonly IMovieService _movieService;
 
@@ -19,7 +20,17 @@ namespace API.Controllers
 			_movieService = movieService;
 		}
 
+		/// <summary>
+		/// Adiciona um novo filme.
+		/// </summary>
+		/// <param name="movieInputDto">Os dados do filme a ser inserido.</param>
+		/// <response code="200">Filme adicionado com sucesso.</response>
+		/// <response code="400">Corpo da requisição inválido.</response>
+		/// <response code="500">Erro inesperado.</response>
 		[HttpPost]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 		public async Task<IActionResult> Post([FromBody] MovieInputDto movieInputDto)
 		{
 			try
@@ -32,16 +43,28 @@ namespace API.Controllers
 			}
 			catch (ApplicationException e)
 			{
-				return InternalServerError(e.Message);
+				return this.InternalServerError(e.Message);
 			}
 			catch (Exception)
 			{
-				return InternalServerError();
+				return this.InternalServerError();
 			}
 		}
 
+		/// <summary>
+		/// Adiciona uma avaliação para um filme.
+		/// </summary>
+		/// <param name="id">O id do filme.</param>
+		/// <param name="rating">A nota para o filme.</param>
+		/// <remarks>O valor da avaliação deve estar entre 0 e 4, inclusive.</remarks>
+		/// <response code="200">Avaliação adicionada com sucesso.</response>
+		/// <response code="400">Corpo da requisição inválido.</response>
+		/// <response code="500">Erro inesperado.</response>
 		[Authorize(Roles = "BasicUser")]
 		[HttpPost("{id}/Rate")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 		public async Task<IActionResult> Rate(int id, [FromQuery] short rating)
 		{
 			try
@@ -56,7 +79,7 @@ namespace API.Controllers
 			}
 			catch (Exception)
 			{
-				return InternalServerError();
+				return this.InternalServerError();
 			}
 		}
 	}

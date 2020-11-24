@@ -3,6 +3,7 @@ using Data.Repositories.Interfaces;
 using Service.DTOs.User;
 using Service.Factories.Interfaces;
 using Service.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,6 +55,9 @@ namespace Service
 		public async Task DeactivateAsync(int id)
 		{
 			var existingUser = await _userRepository.GetAsync(id, asNoTracking: true);
+			if (existingUser is null)
+				throw new ApplicationException($"No user found with id {id}.");
+
 			existingUser.Deactivate();
 			await _userRepository.UpdateAsync(existingUser);
 		}
@@ -61,6 +65,9 @@ namespace Service
 		public async Task ActivateAsync(int id)
 		{
 			var existingUser = await _userRepository.GetAsync(id, asNoTracking: true);
+			if (existingUser is null)
+				throw new ApplicationException($"No user found with id {id}.");
+
 			existingUser.Activate();
 			await _userRepository.UpdateAsync(existingUser);
 		}

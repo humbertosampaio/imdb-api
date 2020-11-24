@@ -1,14 +1,19 @@
-﻿namespace Data.DTOs
+﻿using Newtonsoft.Json;
+
+namespace Data.DTOs
 {
 	public struct PaginationDto
 	{
-		public PaginationDto(int pageNumber = 1, int registersPerPage = 10)
+		[JsonConstructor]
+		public PaginationDto(bool enablePagination, int pageNumber, int registersPerPage)
 		{
-			PageNumber = pageNumber;
-			RegistersPerPage = registersPerPage;
+			EnablePagination = enablePagination;
+			PageNumber = pageNumber == 0 ? 1 : pageNumber;
+			RegistersPerPage = registersPerPage == 0 ? 10 : registersPerPage;
 		}
 
-		public int PageNumber { get; private set; }
-		public int RegistersPerPage { get; private set; }
+		public bool EnablePagination { get; set; }
+		public int PageNumber { get; set; }
+		public int RegistersPerPage { get; set; }
 	}
 }

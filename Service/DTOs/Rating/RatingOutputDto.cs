@@ -1,15 +1,15 @@
 ﻿namespace Service.DTOs.Rating
 {
-	public struct RatingOutputDto
+	public readonly struct RatingOutputDto
 	{
-		/// <exception cref="System.NullReferenceException">If <see cref="Rating.Movie"/> in parameter <paramref name="rating"/> is <see cref="true"/></exception>
+		/// <exception cref="System.NullReferenceException">If <see cref="Rating.Movie"/> in parameter <paramref name="rating"/> is <see cref="null"/></exception>
 		public RatingOutputDto(Domain.Rating rating)
 		{
-			MovieId = rating.Movie.Id;
+			MovieName = rating.Movie.Name;
 			Value = rating.Value;
 		}
 
-		public int MovieId { get; }
+		public string MovieName { get; }
 		public int Value { get; }
 	}
 }

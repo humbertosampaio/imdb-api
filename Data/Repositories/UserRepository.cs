@@ -19,15 +19,19 @@ namespace Data.Repositories
 
 		public async Task<IEnumerable<User>> GetActiveBasicUsersAsync(PaginationDto paginationDto)
 		{
-			return await _dataContext.Users
+			IQueryable<User> users = _dataContext.Users
 				.AsNoTracking()
 				.Include(user => user.Ratings)
 				.ThenInclude(rating => rating.Movie)
 				.Where(user => user.Active && user.Role.Equals(RoleEnum.BasicUser))
-				.OrderBy(user => user.Login)
-				.Skip(paginationDto.RegistersPerPage * (paginationDto.PageNumber - 1))
-				.Take(paginationDto.RegistersPerPage)
-				.ToListAsync();
+				.OrderBy(user => user.Login);
+
+			if (paginationDto.EnablePagination)
+				users = users
+					.Skip(paginationDto.RegistersPerPage * (paginationDto.PageNumber - 1))
+					.Take(paginationDto.RegistersPerPage);
+
+			return await users.ToListAsync();
 		}
 
 		public async Task<User> GetAsync(int id, bool asNoTracking = false)
