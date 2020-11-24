@@ -43,6 +43,34 @@ namespace API.Controllers
 			}
 		}
 
+		[HttpPatch("Activate/{id}")]
+		public async Task<IActionResult> Activate(int id)
+		{
+			try
+			{
+				await _userService.ActivateAsync(id);
+				return Ok();
+			}
+			catch (Exception)
+			{
+				return InternalServerError();
+			}
+		}
+
+		[HttpPatch("Deactivate/{id}")]
+		public async Task<IActionResult> Deactivate(int id)
+		{
+			try
+			{
+				await _userService.DeactivateAsync(id);
+				return Ok();
+			}
+			catch (Exception)
+			{
+				return InternalServerError();
+			}
+		}
+
 		[HttpPost("Register")]
 		public async Task<IActionResult> Register([FromBody] UserInputDto userDto)
 		{

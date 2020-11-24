@@ -43,5 +43,19 @@ namespace Service
 			var newUser = _userFactory.Create(newUserInputDto, id);
 			await _userRepository.UpdateAsync(newUser);
 		}
+
+		public async Task DeactivateAsync(int id)
+		{
+			var existingUser = await _userRepository.GetAsync(id);
+			existingUser.Deactivate();
+			await _userRepository.UpdateAsync(existingUser);
+		}
+
+		public async Task ActivateAsync(int id)
+		{
+			var existingUser = await _userRepository.GetAsync(id);
+			existingUser.Activate();
+			await _userRepository.UpdateAsync(existingUser);
+		}
 	}
 }

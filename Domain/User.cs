@@ -18,6 +18,9 @@ namespace Domain
 		public RoleEnum Role { get; private set; }
 		public bool Active { get; private set; }
 		public IEnumerable<Rating> Ratings { get; private set; }
+
+		public void Activate() => Active = true;
+		public void Deactivate() => Active = false;
 	}
 
 	public enum RoleEnum : short

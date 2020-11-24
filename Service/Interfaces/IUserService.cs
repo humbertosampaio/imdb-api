@@ -11,5 +11,9 @@ namespace Service.Interfaces
 		Task AddAsync(UserInputDto userInputDto);
 
 		Task UpdateAsync(int id, UserInputDto newUserInputDto);
+
+		Task ActivateAsync(int id);
+
+		Task DeactivateAsync(int id);
 	}
 }
