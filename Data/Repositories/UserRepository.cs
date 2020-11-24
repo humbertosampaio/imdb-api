@@ -1,7 +1,7 @@
-﻿using Data.Repositories.Interfaces;
+﻿using Data.DTOs;
+using Data.Repositories.Interfaces;
 using Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,25 +17,31 @@ namespace Data.Repositories
 			_dataContext = context;
 		}
 
-		public async Task<IEnumerable<User>> GetAll()
+		public async Task<IEnumerable<User>> GetActiveBasicUsersAsync(PaginationDto paginationDto)
 		{
 			return await _dataContext.Users
 				.AsNoTracking()
 				.Include(user => user.Ratings)
 				.ThenInclude(rating => rating.Movie)
-				.Where(user => user.Active)
+				.Where(user => user.Active && user.Role.Equals(RoleEnum.BasicUser))
+				.OrderBy(user => user.Login)
+				.Skip(paginationDto.RegistersPerPage * (paginationDto.PageNumber - 1))
+				.Take(paginationDto.RegistersPerPage)
 				.ToListAsync();
 		}
 
 		public async Task<User> GetAsync(int id)
 		{
-			return await _dataContext.Users.FindAsync(id);
+			return await _dataContext.Users
+				.AsNoTracking()
+				.SingleAsync(user => user.Id.Equals(id));
 		}
 
 		public async Task<User> GetAsync(string login)
 		{
 			return await _dataContext.Users
-				.SingleOrDefaultAsync(user => user.Login.Equals(login));
+				.AsNoTracking()
+				.SingleAsync(user => user.Login.Equals(login));
 		}
 
 		public async Task AddAsync(User user)
@@ -48,16 +54,6 @@ namespace Data.Repositories
 		{
 			_dataContext.Users.Update(user);
 			await _dataContext.SaveChangesAsync();
-		}
-
-		public async Task Deactivate(User user)
-		{
-			throw new NotImplementedException();
-		}
-
-		public async Task<IEnumerable<User>> GetActiveBasicUsers(int pageIndex = 0, int usersPerPage = 0)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

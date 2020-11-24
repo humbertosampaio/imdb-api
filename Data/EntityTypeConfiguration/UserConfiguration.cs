@@ -8,6 +8,7 @@ namespace Data.EntityTypeConfiguration
 	{
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
+			builder.HasIndex(user => user.Login).IsUnique();
 			builder.HasMany(user => user.Ratings).WithOne(rating => rating.User);
 
 			builder.Property(e => e.Id)

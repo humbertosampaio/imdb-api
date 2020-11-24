@@ -1,4 +1,5 @@
-﻿using Service.DTOs.User;
+﻿using Data.DTOs;
+using Service.DTOs.User;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +7,7 @@ namespace Service.Interfaces
 {
 	public interface IUserService
 	{
-		Task<IEnumerable<UserOutputDto>> GetAll();
+		Task<IEnumerable<UserOutputDto>> GetActiveBasicUsersAsync(PaginationDto paginationDto);
 
 		Task AddAsync(UserInputDto userInputDto);
 

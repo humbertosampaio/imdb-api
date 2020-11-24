@@ -1,4 +1,4 @@
-﻿using Data.Repositories.Filters;
+﻿using Data.DTOs;
 using Domain;
 using System.Collections.Generic;
 using System.Threading.Tasks;

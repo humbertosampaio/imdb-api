@@ -1,4 +1,4 @@
-﻿using Data.Repositories.Filters;
+﻿using Data.DTOs;
 using Data.Repositories.Interfaces;
 using Domain;
 using Service.DTOs.Movie;

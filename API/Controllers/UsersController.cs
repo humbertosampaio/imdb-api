@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Data.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.DTOs.User;
 using Service.Interfaces;
@@ -17,13 +18,6 @@ namespace API.Controllers
 		public UsersController(IUserService userService)
 		{
 			_userService = userService;
-		}
-
-		[HttpGet("{id}")]
-		public async Task<IActionResult> Get()
-		{
-			var users = await _userService.GetAll();
-			return Ok(users);
 		}
 
 		[HttpPost]
@@ -87,6 +81,21 @@ namespace API.Controllers
 			{
 				await _userService.DeactivateAsync(id);
 				return Ok();
+			}
+			catch (Exception)
+			{
+				return InternalServerError();
+			}
+		}
+
+		[HttpGet("ActiveBasicUsers")]
+		[Authorize(Roles = "Administrator")]
+		public async Task<IActionResult> GetActiveBasicUsers(PaginationDto paginationDto)
+		{
+			try
+			{
+				var users = await _userService.GetActiveBasicUsersAsync(paginationDto);
+				return Ok(users);
 			}
 			catch (Exception)
 			{

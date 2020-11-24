@@ -1,4 +1,5 @@
-﻿using Data.Repositories.Interfaces;
+﻿using Data.DTOs;
+using Data.Repositories.Interfaces;
 using Service.DTOs.User;
 using Service.Factories.Interfaces;
 using Service.Interfaces;
@@ -24,9 +25,9 @@ namespace Service
 			_userFactory = userFactory;
 		}
 
-		public async Task<IEnumerable<UserOutputDto>> GetAll()
+		public async Task<IEnumerable<UserOutputDto>> GetActiveBasicUsersAsync(PaginationDto paginationDto)
 		{
-			var users = await _userRepository.GetAll();
+			var users = await _userRepository.GetActiveBasicUsersAsync(paginationDto);
 			return users.Select(user => new UserOutputDto(user));
 		}
 
