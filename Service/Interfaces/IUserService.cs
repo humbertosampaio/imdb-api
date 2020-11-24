@@ -6,6 +6,8 @@ namespace Service.Interfaces
 {
 	public interface IUserService
 	{
-		public Task<IEnumerable<UserOutputDto>> GetAll();
+		Task<IEnumerable<UserOutputDto>> GetAll();
+
+		Task AddAsync(UserInputDto userInputDto);
 	}
 }

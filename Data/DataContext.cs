@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace Data
 {
 	public class DataContext : DbContext, IDataContext
 	{
-		public DataContext(DbContextOptions options) : base(options)
+		public DataContext(DbContextOptions<DataContext> options) : base(options)
 		{
 		}
 
@@ -15,36 +16,57 @@ namespace Data
 		{
 			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-			//	var administrator = new User(1, "admin", Role.Administrator);
+			RunSeed(modelBuilder);
+		}
 
-			//	// Array de dados de entrada
-			//	var actors = new Actor[50];
-			//	for (int i = 1; i <= actors.Length; i++)
-			//		actors[i - 1] = new Actor(i, $"Actor{i}");
+		private void RunSeed(ModelBuilder modelBuilder)
+		{
+			var administrator = new User(1, "admin", RoleEnum.Administrator, true);
 
-			//	var directors = new Director[50];
-			//	for (int i = 1; i <= directors.Length; i++)
-			//		directors[i - 1] = new Director(i, $"Director{i}");
+			var actors = new Actor[50];
+			for (int i = 1; i <= actors.Length; i++)
+				actors[i - 1] = new Actor(i, $"Actor{i}");
 
-			//	var genres = new Genre[15];
-			//	for (int i = 1; i <= genres.Length; i++)
-			//		genres[i - 1] = new Genre(i, $"Genre{i}");
+			var directors = new Director[50];
+			for (int i = 1; i <= directors.Length; i++)
+				directors[i - 1] = new Director(i, $"Director{i}");
 
-			//	var movies = new Movie[20];
-			//	for (int i = 1; i <= movies.Length; i++)
-			//		movies[i - 1] = new Movie(
-			//			i,
-			//			$"Movie{i}",
-			//			genres[i / 2],
-			//			new Actor[] { actors[(i * 2) - 1], actors[i * 2] },
-			//			new Director[] { directors[(i * 2) - 1], directors[i * 2] }
-			//		);
+			var genres = new Genre[20];
+			for (int i = 1; i <= genres.Length; i++)
+				genres[i - 1] = new Genre(i, $"Genre{i}");
 
-			//	modelBuilder.Entity<User>().HasData(administrator);
-			//	modelBuilder.Entity<Actor>().HasData(actors);
-			//	modelBuilder.Entity<Director>().HasData(directors);
-			//	modelBuilder.Entity<Genre>().HasData(genres);
-			//	modelBuilder.Entity<Movie>().HasData(movies);
+			var movies = new dynamic[20];
+			for (int i = 1; i <= movies.Length; i++)
+				movies[i - 1] = new
+				{
+					Id = i,
+					Name = $"Movie{i}",
+					GenreId = genres[i - 1].Id
+				};
+
+			var actorsMovies = new object[]
+			{
+				new { ActorsId = directors[0].Id, MoviesId = movies[0].Id },
+				new { ActorsId = directors[1].Id, MoviesId = movies[0].Id },
+				new { ActorsId = directors[2].Id, MoviesId = movies[1].Id },
+				new { ActorsId = directors[3].Id, MoviesId = movies[1].Id },
+			};
+
+			var directorsMovies = new object[]
+			{
+				new { DirectorsId = directors[0].Id, MoviesId = movies[0].Id },
+				new { DirectorsId = directors[1].Id, MoviesId = movies[0].Id },
+				new { DirectorsId = directors[2].Id, MoviesId = movies[1].Id },
+				new { DirectorsId = directors[3].Id, MoviesId = movies[1].Id },
+			};
+
+			modelBuilder.Entity<User>().HasData(administrator);
+			modelBuilder.Entity<Actor>().HasData(actors);
+			modelBuilder.Entity<Director>().HasData(directors);
+			modelBuilder.Entity<Genre>().HasData(genres);
+			modelBuilder.Entity<Movie>().HasData(movies);
+			modelBuilder.Entity("ActorMovie").HasData(actorsMovies);
+			modelBuilder.Entity("DirectorMovie").HasData(directorsMovies);
 		}
 
 		public Task SaveChangesAsync()

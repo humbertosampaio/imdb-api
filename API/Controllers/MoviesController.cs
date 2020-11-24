@@ -8,7 +8,7 @@ namespace API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class MoviesController : ControllerBase
+	public class MoviesController : BaseApiController
 	{
 		private readonly IMovieService _movieService;
 
@@ -36,11 +36,11 @@ namespace API.Controllers
 			}
 			catch (ApplicationException e)
 			{
-				return Problem(e.Message, statusCode: 500);
+				return InternalServerError(e.Message);
 			}
 			catch (Exception)
 			{
-				return Problem("Unexpected error.", statusCode: 500);
+				return InternalServerError();
 			}
 		}
 	}

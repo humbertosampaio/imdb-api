@@ -1,17 +1,9 @@
-﻿using Domain;
-
-namespace Service.DTOs.User
+﻿namespace Service.DTOs.Rating
 {
 	public struct RatingOutputDto
 	{
-		public RatingOutputDto(int movieId, int value)
-		{
-			MovieId = movieId;
-			Value = value;
-		}
-
 		/// <exception cref="System.NullReferenceException">If <see cref="Rating.Movie"/> in parameter <paramref name="rating"/> is <see cref="true"/></exception>
-		public RatingOutputDto(Rating rating)
+		public RatingOutputDto(Domain.Rating rating)
 		{
 			MovieId = rating.Movie.Id;
 			Value = rating.Value;

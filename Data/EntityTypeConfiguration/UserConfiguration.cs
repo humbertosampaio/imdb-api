@@ -13,14 +13,18 @@ namespace Data.EntityTypeConfiguration
 			builder.Property(e => e.Id)
 				.UseIdentityColumn();
 
-			builder.Property(user => user.Name)
+			builder.Property(user => user.Login)
 				.IsRequired()
-				.HasMaxLength(100)
-				.HasColumnType("varchar(100)");
+				.HasMaxLength(50)
+				.HasColumnType("varchar(50)");
 
 			builder.Property(user => user.Role)
 				.IsRequired()
 				.HasComment("1. Administrator; 2. BasicUser");
+
+			builder.Property(user => user.Active)
+				.IsRequired()
+				.HasDefaultValue(true);
 		}
 	}
 }

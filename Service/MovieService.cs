@@ -32,7 +32,7 @@ namespace Service
 			await _movieRepository.AddAsync(movie);
 		}
 
-		public Task AddRating(User user, int rating)
+		public Task AddRatingAsync(User user, int rating)
 		{
 			throw new NotImplementedException();
 		}

@@ -8,9 +8,9 @@ namespace Data.Repositories.Interfaces
 	{
 		Task<IEnumerable<User>> GetAll();
 
-		Task<User> Get(int id);
+		Task<User> GetAsync(string login);
 
-		Task Insert(User user);
+		Task AddAsync(User user);
 
 		Task Deactivate(User user);
 
